@@ -1,17 +1,21 @@
 import 'dotenv/config'
 import express from 'express';
-import authenticatePostgres from './utils/authenticatePostgres.js';
-import register from './routes/authenticate/register.js'
-import login from './routes/authenticate/login.js'
+import { authenticatePostgres, sequelize } from './src/utils/authenticatePostgres.js';
+import register from './src/routes/authenticate/register.js'
+import login from './src/routes/authenticate/login.js'
+import { syncUser } from './src/models/User.js';
 
-const app = express();
+const authApp = express();
 // Authenticate RDB
 authenticatePostgres();
+if (process.env.ENV === 'dev') {
+  // syncs all the models
+  syncUser()
+}
+authApp.use(express.json());
 
-app.use(express.json());
+authApp.post('/login', login)
 
-app.post('/login', login)
+authApp.post('/register', register)
 
-app.post('/register', register)
-
-app.listen(4000);
+authApp.listen(4000);

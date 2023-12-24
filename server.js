@@ -1,6 +1,6 @@
 import express from 'express';
-import authenticateToken from './utils/authenticateToken.js';
-import getTodos from './routes/todos/getTodos.js';
+import authenticateToken from './src/utils/authenticateToken.js';
+import getTodos from './src/routes/todos/getTodos.js';
 
 const app = express();
 
