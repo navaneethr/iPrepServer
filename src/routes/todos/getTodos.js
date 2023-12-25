@@ -6,7 +6,7 @@ const todos = [
 ]
 
 const getTodos = (req, res) => {
-  res.json(todos);
+  res.json({ todos, user: req.user });
 }
 
 export default getTodos;

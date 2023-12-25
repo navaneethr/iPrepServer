@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import { sequelize } from "../utils/authenticatePostgres.js";
+import { checkPassword } from '../utils/validations/index.js';
 
 const User = sequelize.define('user', {
   user_id: {
@@ -8,30 +9,55 @@ const User = sequelize.define('user', {
     autoIncrement: true,
     primaryKey: true
   },
-  full_name: {
+  fullName: {
     type: Sequelize.DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      checkMandatory: (value) => {
+        if (!value) {
+          throw new Error("Fullname is a mandatory field");
+        }
+      },
+      characterLength: (value) => {
+        if (value && (value.length < 3)) {
+          throw new Error("Your name must be atleast 3 characters long");
+        }
+      }
+    }
   },
   email: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
+    validate: {
+      isEmail: true,
+      notEmpty: {
+        msg: 'Please enter your email',
+      },
+    }
   },
   password: {
     type: Sequelize.DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: 'Please enter your password',
+      },
+    }
   },
   verified: {
     type: Sequelize.DataTypes.BOOLEAN,
     defaultValue: false
   },
-  last_login: {
+  lastLogin: {
     type: Sequelize.DataTypes.DATE,
   }
+}, {
+  paranoid: true,
 });
 
 export const syncUser = () => {
-  User.sync({ alter: true }).then(() => {
+  User.sync({ force: true }).then(() => {
     console.log('Sync Users Table Success');
   }).catch((err) => {
     console.log('Error Syncing Users Table', err);

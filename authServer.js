@@ -10,7 +10,7 @@ const authApp = express();
 authenticatePostgres();
 if (process.env.ENV === 'dev') {
   // syncs all the models
-  syncUser()
+  // syncUser()
 }
 authApp.use(express.json());
 
