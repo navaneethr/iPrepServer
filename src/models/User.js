@@ -1,9 +1,9 @@
 import Sequelize from 'sequelize';
 import { sequelize } from "../utils/authenticatePostgres.js";
-import { checkPassword } from '../utils/validations/index.js';
+import Todo from './Todos.js';
 
 const User = sequelize.define('user', {
-  user_id: {
+  userId: {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
@@ -55,21 +55,5 @@ const User = sequelize.define('user', {
 }, {
   paranoid: true,
 });
-
-export const syncUser = () => {
-  User.sync({ force: true }).then(() => {
-    console.log('Sync Users Table Success');
-  }).catch((err) => {
-    console.log('Error Syncing Users Table', err);
-  })
-}
-
-export const dropUser = () => {
-  User.drop().then(() => {
-    console.log('Users Table Dropped Successfully');
-  }).catch((err) => {
-    console.log('Error Dropping Users Table', err);
-  })
-}
 
 export default User;

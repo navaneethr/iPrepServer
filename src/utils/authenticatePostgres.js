@@ -17,14 +17,5 @@ const sequelize = new Sequelize('', process.env.DB_USER, process.env.DB_PASS, {
   }
 });
 
-function authenticatePostgres() {
-  sequelize.authenticate().then(async () => {
-    console.log('DB Connected');
-  }).catch((err) => {
-    console.log('---------------------------- ERROR START -----------------------------');
-    console.log(err);
-    console.log('---------------------------- ERROR END -----------------------------');
-  })
-}
 
-export { authenticatePostgres, sequelize };
+export { sequelize };
