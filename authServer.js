@@ -7,9 +7,16 @@ import login from './src/routes/authenticate/login.js'
 const authApp = express();
 // Authenticate RDB
 (async () => {
-  await sequelize.authenticate();
-  await sequelize.sync({ force: true });
-  console.log('-----> DB Connected')
+  try {
+    await sequelize.authenticate();
+    console.log('-----> DB Connected')
+    if (process.env.ENV === 'dev') {
+      console.log('-----> DB Synced')
+      await sequelize.sync();
+    }
+  } catch (error) {
+    console.log(error);
+  }
 })()
 
 authApp.use(express.json());

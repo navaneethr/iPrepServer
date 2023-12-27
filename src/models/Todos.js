@@ -11,15 +11,25 @@ const Todo = sequelize.define('todo', {
   userId: {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: 'userId is missing',
+      },
+    }
   },
   todoText: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    validate: {
+      notEmpty: {
+        msg: 'Todo Item cannot be empty',
+      },
+    },
+    unique: false
   },
   checked: {
     type: Sequelize.DataTypes.BOOLEAN,
-    allowNull: false,
+    defaultValue: false
   }
 }, {
   paranoid: true,
