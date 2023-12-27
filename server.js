@@ -26,7 +26,7 @@ app.use(express.json());
 
 const swaggerSpecs = swaggerJsdoc(swaggerOptions);
 app.use(
-  "/", // -> https:localhost:3000/
+  "/api-docs", // -> https:localhost:3000/api-docs
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpecs)
 );
